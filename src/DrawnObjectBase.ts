@@ -460,6 +460,14 @@ export class DrawnObjectBase {
                      clipx : number, clipy : number, clipw : number, cliph : number) 
     {
         //=== YOUR CODE HERE ===
+        ctx.beginPath();
+        ctx.moveTo(clipx,clipy);
+        ctx.lineTo(clipx+clipw, clipy);
+        ctx.lineTo(clipx+clipw, clipy+cliph);
+        ctx.lineTo(clipx, clipy+cliph);
+        ctx.lineTo(clipx,clipy);
+        ctx.closePath();
+        ctx.clip();
     }
 
     // Utility routine to create a new rectangular path at our bounding box.
@@ -523,8 +531,9 @@ export class DrawnObjectBase {
     protected _startChildDraw(childIndx : number, ctx: DrawContext) {
         // save the state of the context object on its internal stack
         ctx.save();
-        
         //=== YOUR CODE HERE ===
+        this.applyClip(ctx,this.children[childIndx].x,this.children[childIndx].y, 
+            this.children[childIndx].w,this.children[childIndx].h )
     }
 
     
@@ -652,6 +661,7 @@ export class DrawnObjectBase {
     // our parent.
     public damageArea(xv: number, yv : number, wv : number, hv : number) : void {
         //=== YOUR CODE HERE ===
+        this.parent?.damageArea(xv,yv,wv,hv);
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

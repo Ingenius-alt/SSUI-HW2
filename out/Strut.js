@@ -23,6 +23,7 @@ export class Strut extends DrawnObjectBase {
     get w() { return super.w; }
     set w(v) {
         //=== YOUR CODE HERE ===
+        // couldnt you just do nothing 
     }
     get h() { return super.h; }
     set h(v) {

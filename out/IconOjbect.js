@@ -74,7 +74,10 @@ export class IconObject extends DrawnObjectBase {
     }
     get resizesImage() { return this._resizesImage; }
     set resizesImage(v) {
-        //=== YOUR CODE HERE ===
+        if (v != this._resizesImage) {
+            this._resizesImage = v;
+            this.damageAll();
+        }
     }
     //-------------------------------------------------------------------
     // Methods
@@ -82,6 +85,12 @@ export class IconObject extends DrawnObjectBase {
     // If our size is determined by the image, resize us to match (otherwise do nothing).
     _resize() {
         //=== YOUR CODE HERE ===
+        if (!this.resizesImage) {
+            if (this.image !== undefined && this.image.canvasImage != undefined) {
+                this.w = this.image.canvasImage.width;
+                this.h = this.image.canvasImage.height;
+            }
+        }
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // Function that is called when our loading is complete
@@ -106,9 +115,12 @@ export class IconObject extends DrawnObjectBase {
             return;
         if (this.resizesImage) {
             //=== YOUR CODE HERE ===
+            ctx.drawImage(this.image.canvasImage, this.x, this.y, this.w, this.y);
         }
         else {
             //=== YOUR CODE HERE ===
+            this._resize();
+            ctx.drawImage(this.image.canvasImage, this.x, this.y, this.w, this.y);
         }
     }
 } // end of IconObject class
