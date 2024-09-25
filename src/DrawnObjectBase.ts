@@ -107,12 +107,12 @@ export class DrawnObjectBase {
     protected _x : number = 0;
     public get x() : number {return this._x;}  
     public set x(v : number) {
-        if (v !== this.x) {
+        if (v !== this._x) {
 
              // don't forget to declare damage whenever something changes
              // that could affect the display
-
-            //=== YOUR CODE HERE ===
+            this._x = v;
+            this.damageAll();
         }
     }    
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -121,7 +121,11 @@ export class DrawnObjectBase {
     protected _y : number = 0;
     public get y() : number {return this._y;}
     public set y(v : number) {
-        //=== YOUR CODE HERE ===
+        if (v !== this._y)
+        {
+            this._y = v;
+            this.damageAll();
+        }
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -139,7 +143,10 @@ export class DrawnObjectBase {
     protected _w : number = 42;
     public get w() : number {return this._w;}
     public set w(v : number) {
-            //=== YOUR CODE HERE ===
+        if (v !== this._w){
+            this._w = v;
+            this.damageAll();
+        }
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -148,7 +155,10 @@ export class DrawnObjectBase {
     protected _wConfig : SizeConfigLiteral = SizeConfig.elastic(42);
     public get wConfig() : SizeConfigLiteral {return this._wConfig;}
     public set wConfig(v : SizeConfigLiteral) {
-        //=== YOUR CODE HERE ===
+        if (!SizeConfig.eq(v,this._wConfig)) {
+            this._wConfig = v;
+            this.damageAll();
+        }
     }
         
     public get naturalW() : number {return this._wConfig.nat;}
@@ -173,7 +183,10 @@ export class DrawnObjectBase {
     protected _h : number = 13;
     public get h() : number {return this._h;}
     public set h(v : number) {
-        //=== YOUR CODE HERE ===
+        if (v !== this._h) {
+            this._h = v;
+            this.damageAll();
+        }
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -182,7 +195,10 @@ export class DrawnObjectBase {
     protected _hConfig : SizeConfigLiteral = SizeConfig.elastic(13);
     public get hConfig() : SizeConfigLiteral {return this._hConfig;}
     public set hConfig(v : SizeConfigLiteral) {
-        //=== YOUR CODE HERE ===
+        if (!SizeConfig.eq(v,this._hConfig)) {
+            this._hConfig = v;
+            this.damageAll();
+        }
     }
 
     public get naturalH() : number {return this._hConfig.nat;}
@@ -215,7 +231,10 @@ export class DrawnObjectBase {
     protected _visible : boolean = true;
     public get visible() : boolean {return this._visible;}
     public set visible(v : boolean) {
-            //=== YOUR CODE HERE ===
+            if (v !== this._visible){
+                this._visible = v;
+                this.damageAll();
+            }
     }
 
     //-------------------------------------------------------------------
@@ -504,7 +523,7 @@ export class DrawnObjectBase {
     protected _startChildDraw(childIndx : number, ctx: DrawContext) {
         // save the state of the context object on its internal stack
         ctx.save();
-
+        
         //=== YOUR CODE HERE ===
     }
 
