@@ -532,6 +532,7 @@ export class DrawnObjectBase {
         // save the state of the context object on its internal stack
         ctx.save();
         //=== YOUR CODE HERE ===
+        ctx.translate(-this.children[childIndx].x,-this.children[childIndx].y)
         this.applyClip(ctx,this.children[childIndx].x,this.children[childIndx].y, 
             this.children[childIndx].w,this.children[childIndx].h )
     }
@@ -662,6 +663,7 @@ export class DrawnObjectBase {
     public damageArea(xv: number, yv : number, wv : number, hv : number) : void {
         //=== YOUR CODE HERE ===
         this.parent?.damageArea(xv,yv,wv,hv);
+        //call damge 
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
