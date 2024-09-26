@@ -24,7 +24,6 @@ export class FilledObject extends DrawnObjectBase {
     get w() { return super.w; }
     set w(v) {
         //=== YOUR CODE HERE ===
-        // could you do nothing?
     }
     get h() { return super.h; }
     set h(v) {
@@ -53,7 +52,7 @@ export class FilledObject extends DrawnObjectBase {
             ctx.fillStyle = this.color.toString();
         }
         //=== YOUR CODE HERE ===
-        ctx.fillRect(this.x, this.y, this.w, this.h);
+        ctx.fillRect(0, 0, this.w, this.h);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // Produce a human readable "tag" string for this object -- a short string which 

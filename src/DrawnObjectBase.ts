@@ -107,7 +107,7 @@ export class DrawnObjectBase {
     protected _x : number = 0;
     public get x() : number {return this._x;}  
     public set x(v : number) {
-        if (v !== this._x) {
+        if (!(v === this._x)) {
 
              // don't forget to declare damage whenever something changes
              // that could affect the display
@@ -121,7 +121,7 @@ export class DrawnObjectBase {
     protected _y : number = 0;
     public get y() : number {return this._y;}
     public set y(v : number) {
-        if (v !== this._y)
+        if (!(v === this._y))
         {
             this._y = v;
             this.damageAll();
@@ -143,7 +143,7 @@ export class DrawnObjectBase {
     protected _w : number = 42;
     public get w() : number {return this._w;}
     public set w(v : number) {
-        if (v !== this._w){
+        if (!(v === this._w)){
             this._w = v;
             this.damageAll();
         }
@@ -183,7 +183,7 @@ export class DrawnObjectBase {
     protected _h : number = 13;
     public get h() : number {return this._h;}
     public set h(v : number) {
-        if (v !== this._h) {
+        if (!(v === this._h)) {
             this._h = v;
             this.damageAll();
         }
@@ -231,7 +231,7 @@ export class DrawnObjectBase {
     protected _visible : boolean = true;
     public get visible() : boolean {return this._visible;}
     public set visible(v : boolean) {
-            if (v !== this._visible){
+            if (!(v === this._visible)){
                 this._visible = v;
                 this.damageAll();
             }
@@ -461,13 +461,9 @@ export class DrawnObjectBase {
     {
         //=== YOUR CODE HERE ===
         ctx.beginPath();
-        ctx.moveTo(clipx,clipy);
-        ctx.lineTo(clipx+clipw, clipy);
-        ctx.lineTo(clipx+clipw, clipy+cliph);
-        ctx.lineTo(clipx, clipy+cliph);
-        ctx.lineTo(clipx,clipy);
-        ctx.closePath();
+        ctx.rect(clipx,clipy,clipw,cliph);
         ctx.clip();
+        ctx.closePath();
     }
 
     // Utility routine to create a new rectangular path at our bounding box.
@@ -531,10 +527,12 @@ export class DrawnObjectBase {
     protected _startChildDraw(childIndx : number, ctx: DrawContext) {
         // save the state of the context object on its internal stack
         ctx.save();
-        //=== YOUR CODE HERE ===
-        ctx.translate(-this.children[childIndx].x,-this.children[childIndx].y)
-        this.applyClip(ctx,this.children[childIndx].x,this.children[childIndx].y, 
-            this.children[childIndx].w,this.children[childIndx].h )
+
+        let child = this.children[childIndx];
+        // applying translation transformation 
+        ctx.translate(child.x,child.y);
+        // changing chlipping region for child
+        this.applyClip(ctx,0,0,child.w,child.h);
     }
 
     
@@ -662,8 +660,7 @@ export class DrawnObjectBase {
     // our parent.
     public damageArea(xv: number, yv : number, wv : number, hv : number) : void {
         //=== YOUR CODE HERE ===
-        this.parent?.damageArea(xv,yv,wv,hv);
-        //call damge 
+        this.parent?._damageFromChild(this, 0, 0, wv, hv);
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -687,7 +684,8 @@ export class DrawnObjectBase {
                                xInChildCoords: number, yInChildCoords: number, 
                                wv : number, hv: number) : void 
     {
-            //=== YOUR CODE HERE ===
+        //=== YOUR CODE HERE ===
+        this.damageArea(xInChildCoords + child.x, yInChildCoords + child.y, wv, hv);
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

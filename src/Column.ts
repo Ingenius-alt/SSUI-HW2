@@ -92,6 +92,16 @@ export class Column extends Group {
     // Our height is set to the height determined by stacking our children vertically.
     protected override _doLocalSizing() : void {
         //=== YOUR CODE HERE ===
+        // const maxes = [];
+        // const mins = [];
+        // const naturals = [];
+        // for (var child of this.children){
+        //     maxes.push(child.minH);
+        //     mins.push(child.maxH);
+        //     naturals.push(child.minH);
+        // }
+
+        
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -156,6 +166,15 @@ export class Column extends Group {
         let numSprings = 0; 
 
         //=== YOUR CODE HERE ===
+        // for (var child of this.children){
+        //     if (!child.tagString().includes("Spring")) {
+        //         natSum += child.naturalH;
+        //         availCompr += child.naturalH - child.minH;
+        //     }
+        //     else {
+        //         numSprings++;
+        //     }
+        // }
 
         return [natSum, availCompr, numSprings];
     }

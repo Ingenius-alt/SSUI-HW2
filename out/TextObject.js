@@ -25,10 +25,18 @@ export class TextObject extends DrawnObjectBase {
     get text() { return this._text; }
     set text(v) {
         //=== YOUR CODE HERE ===
+        if (!(v === this._text)) {
+            this._text = v;
+            this.damageAll();
+        }
     }
     get font() { return this._font; }
     set font(v) {
         //=== YOUR CODE HERE ===
+        if (!(v === this._font)) {
+            this._font = v;
+            this.damageAll();
+        }
     }
     get padding() { return this._padding; }
     set padding(v) {
@@ -46,6 +54,9 @@ export class TextObject extends DrawnObjectBase {
     // Recalculate the size of this object based on the size of the text
     _recalcSize(ctx) {
         //=== YOUR CODE HERE ===
+        let curSize = this._measureText(this.text, this.font, ctx);
+        this.w = curSize.w;
+        this.h = curSize.h;
         // set the size configuration to be fixed at that size
         this.wConfig = SizeConfig.fixed(this.w);
         this.hConfig = SizeConfig.fixed(this.h);
@@ -69,6 +80,16 @@ export class TextObject extends DrawnObjectBase {
                 clr = this.color.toString();
             }
             //=== YOUR CODE HERE ===
+            let text = this._measureText(this.text, this.font, ctx);
+            if (this.renderType === "fill") {
+                ctx.fillStyle = clr;
+                ctx.fillText(this.text, this.padding.w, text.baseln + this.padding.h);
+            }
+            else {
+                ctx.strokeStyle = clr;
+                ctx.strokeText(this.text, this.padding.w, text.baseln + this.padding.h);
+            }
+            ctx.fillText(this.text, this.padding.w, text.baseln + this.padding.h);
         }
         finally {
             // restore the drawing context to the state it was given to us in

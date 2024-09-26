@@ -134,7 +134,7 @@ export class DrawnObjectBase {
     }
     get x() { return this._x; }
     set x(v) {
-        if (v !== this._x) {
+        if (!(v === this._x)) {
             // don't forget to declare damage whenever something changes
             // that could affect the display
             this._x = v;
@@ -143,7 +143,7 @@ export class DrawnObjectBase {
     }
     get y() { return this._y; }
     set y(v) {
-        if (v !== this._y) {
+        if (!(v === this._y)) {
             this._y = v;
             this.damageAll();
         }
@@ -158,7 +158,7 @@ export class DrawnObjectBase {
     }
     get w() { return this._w; }
     set w(v) {
-        if (v !== this._w) {
+        if (!(v === this._w)) {
             this._w = v;
             this.damageAll();
         }
@@ -186,7 +186,7 @@ export class DrawnObjectBase {
     wIsFixed() { return this._wConfig.min === this._wConfig.max; }
     get h() { return this._h; }
     set h(v) {
-        if (v !== this._h) {
+        if (!(v === this._h)) {
             this._h = v;
             this.damageAll();
         }
@@ -220,7 +220,7 @@ export class DrawnObjectBase {
     }
     get visible() { return this._visible; }
     set visible(v) {
-        if (v !== this._visible) {
+        if (!(v === this._visible)) {
             this._visible = v;
             this.damageAll();
         }
@@ -403,13 +403,9 @@ export class DrawnObjectBase {
     applyClip(ctx, clipx, clipy, clipw, cliph) {
         //=== YOUR CODE HERE ===
         ctx.beginPath();
-        ctx.moveTo(clipx, clipy);
-        ctx.lineTo(clipx + clipw, clipy);
-        ctx.lineTo(clipx + clipw, clipy + cliph);
-        ctx.lineTo(clipx, clipy + cliph);
-        ctx.lineTo(clipx, clipy);
-        ctx.closePath();
+        ctx.rect(clipx, clipy, clipw, cliph);
         ctx.clip();
+        ctx.closePath();
     }
     // Utility routine to create a new rectangular path at our bounding box.
     makeBoundingBoxPath(ctx) {
@@ -467,8 +463,11 @@ export class DrawnObjectBase {
     _startChildDraw(childIndx, ctx) {
         // save the state of the context object on its internal stack
         ctx.save();
-        //=== YOUR CODE HERE ===
-        this.applyClip(ctx, this.children[childIndx].x, this.children[childIndx].y, this.children[childIndx].w, this.children[childIndx].h);
+        let child = this.children[childIndx];
+        // applying translation transformation 
+        ctx.translate(child.x, child.y);
+        // changing chlipping region for child
+        this.applyClip(ctx, 0, 0, child.w, child.h);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // Internal method to restore the given drawing context after drawing the 
@@ -583,7 +582,7 @@ export class DrawnObjectBase {
     damageArea(xv, yv, wv, hv) {
         var _a;
         //=== YOUR CODE HERE ===
-        (_a = this.parent) === null || _a === void 0 ? void 0 : _a.damageArea(xv, yv, wv, hv);
+        (_a = this.parent) === null || _a === void 0 ? void 0 : _a._damageFromChild(this, 0, 0, wv, hv);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // Declare that the entire bounding box has been damaged.  This is the typical 
@@ -601,6 +600,7 @@ export class DrawnObjectBase {
     // limited to our bounds by clipping.
     _damageFromChild(child, xInChildCoords, yInChildCoords, wv, hv) {
         //=== YOUR CODE HERE ===
+        this.damageArea(xInChildCoords + child.x, yInChildCoords + child.y, wv, hv);
     }
     get debugID() { return this._debugID; }
     static _genDebugID() { return DrawnObjectBase._nextDebugID++; }
