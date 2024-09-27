@@ -582,7 +582,7 @@ export class DrawnObjectBase {
     damageArea(xv, yv, wv, hv) {
         var _a;
         //=== YOUR CODE HERE ===
-        (_a = this.parent) === null || _a === void 0 ? void 0 : _a._damageFromChild(this, 0, 0, wv, hv);
+        (_a = this.parent) === null || _a === void 0 ? void 0 : _a._damageFromChild(this, xv, yv, wv, hv);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // Declare that the entire bounding box has been damaged.  This is the typical 

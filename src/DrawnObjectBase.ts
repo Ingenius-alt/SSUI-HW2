@@ -660,7 +660,7 @@ export class DrawnObjectBase {
     // our parent.
     public damageArea(xv: number, yv : number, wv : number, hv : number) : void {
         //=== YOUR CODE HERE ===
-        this.parent?._damageFromChild(this, 0, 0, wv, hv);
+        this.parent?._damageFromChild(this, xv, yv, wv, hv);
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

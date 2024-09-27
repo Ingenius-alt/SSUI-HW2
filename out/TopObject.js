@@ -130,6 +130,7 @@ export class TopObject extends DrawnObjectBase {
                 // do the actual drawing from here down the tree
                 //=== YOUR CODE HERE ===
                 this.draw(this.canvasContext);
+                this._damaged = false;
             }
             catch (err) {
                 // catch any exception thrown and echo the message, but then 
@@ -159,6 +160,10 @@ export class TopObject extends DrawnObjectBase {
     // damage instead of passing it up the tree (since there is no up  from here).
     damageArea(xv, yv, wv, hv) {
         //=== YOUR CODE HERE ===
+        this._damageRectX = xv;
+        this._damageRectY = yv;
+        this._damageRectW = wv;
+        this._damageRectH = hv;
         this._damaged = true;
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .  
