@@ -92,14 +92,26 @@ export class Column extends Group {
     // Our height is set to the height determined by stacking our children vertically.
     protected override _doLocalSizing() : void {
         //=== YOUR CODE HERE ===
-        // const maxes = [];
-        // const mins = [];
-        // const naturals = [];
-        // for (var child of this.children){
-        //     maxes.push(child.minH);
-        //     mins.push(child.maxH);
-        //     naturals.push(child.minH);
-        // }
+        const maxes_H = [];
+        const mins_H = [];
+        const naturals_H = [];
+        const maxes_W = [];
+        const mins_W = [];
+        const naturals_W = [];
+        for (var child of this.children){
+            maxes_H.push(child.maxH);
+            mins_H.push(child.minH);
+            naturals_H.push(child.naturalH);
+            maxes_W.push(child.maxW);
+            mins_W.push(child.minW);
+            naturals_W.push(child.naturalW);
+        }
+        this.hConfig.nat = naturals_H.reduce((sum, current) => sum + current, 0);
+        this.hConfig.min = mins_H.reduce((sum, current) => sum + current, 0);
+        this.hConfig.max = maxes_H.reduce((sum, current) => sum + current, 0);
+        this.wConfig.nat = naturals_W.reduce((max, current) => (max < current) ? current : max, 0);
+        this.wConfig.min = mins_W.reduce((max, current) => (max < current) ? current : max, 0);
+        this.wConfig.max = maxes_W.reduce((max, current) => (max < current) ? current : max, 0);
 
         
     }
@@ -166,15 +178,15 @@ export class Column extends Group {
         let numSprings = 0; 
 
         //=== YOUR CODE HERE ===
-        // for (var child of this.children){
-        //     if (!child.tagString().includes("Spring")) {
-        //         natSum += child.naturalH;
-        //         availCompr += child.naturalH - child.minH;
-        //     }
-        //     else {
-        //         numSprings++;
-        //     }
-        // }
+        for (var child of this.children){
+            if (!child.tagString().includes("Spring")) {
+                natSum += child.naturalH;
+                availCompr += child.naturalH - child.minH;
+            }
+            else {
+                numSprings++;
+            }
+        }
 
         return [natSum, availCompr, numSprings];
     }
