@@ -84,6 +84,7 @@ export class Column extends Group {
         const maxes_W = [];
         const mins_W = [];
         const naturals_W = [];
+        //const heights = [];
         for (var child of this.children) {
             maxes_H.push(child.maxH);
             mins_H.push(child.minH);
@@ -91,13 +92,13 @@ export class Column extends Group {
             maxes_W.push(child.maxW);
             mins_W.push(child.minW);
             naturals_W.push(child.naturalW);
+            //heights.push(child.h);
         }
-        this.hConfig.nat = naturals_H.reduce((sum, current) => sum + current, 0);
-        this.hConfig.min = mins_H.reduce((sum, current) => sum + current, 0);
-        this.hConfig.max = maxes_H.reduce((sum, current) => sum + current, 0);
-        this.wConfig.nat = naturals_W.reduce((max, current) => (max < current) ? current : max, 0);
-        this.wConfig.min = mins_W.reduce((max, current) => (max < current) ? current : max, 0);
-        this.wConfig.max = maxes_W.reduce((max, current) => (max < current) ? current : max, 0);
+        let v = new SizeConfig(naturals_H.reduce((sum, current) => sum + current, 0), mins_H.reduce((sum, current) => sum + current, 0), maxes_H.reduce((sum, current) => sum + current, 0));
+        let v2 = new SizeConfig(naturals_W.reduce((max, current) => (max < current) ? current : max, 0), mins_W.reduce((max, current) => (max < current) ? current : max, 0), maxes_W.reduce((max, current) => (max < current) ? current : max, 0));
+        this.hConfig = v;
+        this.wConfig = v2;
+        //this.h = heights.reduce((sum, current) => sum + current, 0);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // This method adjusts the height of the children to do vertical springs and struts 
@@ -173,6 +174,14 @@ export class Column extends Group {
     // the space at the bottom of the column as a fallback strategy).
     _expandChildSprings(excess, numSprings) {
         //=== YOUR CODE HERE ===
+        if (numSprings > 0) {
+            for (var child of this.children) {
+                let space = excess / numSprings;
+                if (!child.tagString().includes("Spring")) {
+                    child.h = child.h + space;
+                }
+            }
+        }
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // Contract our child objects to make up the given amount of shortfall.  Springs
@@ -188,7 +197,8 @@ export class Column extends Group {
         // each child, then subtract that fraction of the total shortfall 
         // from the natural height of that child, to get the assigned height.
         for (let child of this.children) {
-            //=== YOUR CODE HERE ===
+            let fraction = (child.naturalH - child.minH) / availCompr;
+            child.h = child.h - (fraction * shortfall);
         }
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -227,6 +237,23 @@ export class Column extends Group {
         }
         // apply our justification setting for the horizontal
         //=== YOUR CODE HERE ===
+        switch (this.wJustification) {
+            case 'left':
+                for (let child of this.children) {
+                    child.x = 0;
+                }
+                break;
+            case 'right':
+                for (let child of this.children) {
+                    child.x = this.w - child.w;
+                }
+                break;
+            case 'center':
+                for (let child of this.children) {
+                    child.x = this.w / 2 - child.w / 2;
+                }
+                break;
+        }
     }
 }
 //===================================================================

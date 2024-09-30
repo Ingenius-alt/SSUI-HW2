@@ -40,9 +40,13 @@ export class TextObject extends DrawnObjectBase {
     }
     get padding() { return this._padding; }
     set padding(v) {
-        if (typeof v === 'number')
+        if (typeof v === 'number') {
             v = { w: v, h: v };
-        //=== YOUR CODE HERE ===
+        }
+        if (!(v === this._padding)) {
+            this._padding = v;
+            this.damageAll();
+        }
     }
     get renderType() { return this._renderType; }
     set rederType(v) { this._renderType = v; }
@@ -89,7 +93,7 @@ export class TextObject extends DrawnObjectBase {
                 ctx.strokeStyle = clr;
                 ctx.strokeText(this.text, this.padding.w, text.baseln + this.padding.h);
             }
-            ctx.fillText(this.text, this.padding.w, text.baseln + this.padding.h);
+            //ctx.fillText(this.text,this.padding.w,text.baseln + this.padding.h);
         }
         finally {
             // restore the drawing context to the state it was given to us in

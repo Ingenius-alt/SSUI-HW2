@@ -86,8 +86,13 @@ export class TextObject extends DrawnObjectBase {
     protected _padding: SizeLiteral;
     public get padding() : SizeLiteral {return this._padding;}
     public set padding(v : SizeLiteral | number) {
-        if (typeof v === 'number') v = {w:v, h:v};
-        //=== YOUR CODE HERE ===
+        if (typeof v === 'number') {
+            v = {w:v, h:v};
+        }
+        if(!(v === this._padding)) {
+            this._padding = v;
+            this.damageAll();
+        }
     }
     
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -154,7 +159,7 @@ export class TextObject extends DrawnObjectBase {
                 ctx.strokeText(this.text,this.padding.w,text.baseln + this.padding.h);
             }
 
-            ctx.fillText(this.text,this.padding.w,text.baseln + this.padding.h);
+            //ctx.fillText(this.text,this.padding.w,text.baseln + this.padding.h);
 
         }   finally {
             // restore the drawing context to the state it was given to us in
