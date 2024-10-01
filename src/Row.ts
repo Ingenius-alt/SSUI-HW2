@@ -202,8 +202,8 @@ export class Row extends Group {
         if (numSprings > 0) {
             for (var child of this.children){
                 let space = excess / numSprings;
-                if (!child.tagString().includes("Spring")) {
-                    child.w = child.w + space;
+                if (child.tagString().includes("Spring")) {
+                    child.w = space;
                 }
             }
         }
@@ -285,13 +285,13 @@ export class Row extends Group {
             case 'bottom':
                 for (let child of this.children)
                 {
-                    child.y = this.y - child.y;
+                    child.y = this.h - child.h;
                 }
                 break;
             case 'center':
                 for (let child of this.children)
                 {
-                    child.y = this.y/2 - child.y/2;
+                    child.y = this.h/2 - child.h/2;
                 }
                 break;
         }

@@ -24,7 +24,7 @@ export class Spring extends DrawnObjectBase {
     set w(v) {
         //=== YOUR CODE HERE ===
         if (v !== super.w && v >= 0) {
-            super.w = v;
+            this._w = v;
             this.damageAll();
         }
     }
@@ -32,7 +32,7 @@ export class Spring extends DrawnObjectBase {
     set h(v) {
         //=== YOUR CODE HERE ===
         if (v !== super.h && v >= 0) {
-            super.h = v;
+            this._h = v;
             this.damageAll();
         }
     }

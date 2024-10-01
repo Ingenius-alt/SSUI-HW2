@@ -205,8 +205,8 @@ export class Column extends Group {
         if (numSprings > 0) {
             for (var child of this.children){
                 let space = excess / numSprings;
-                if (!child.tagString().includes("Spring")) {
-                    child.h = child.h + space;
+                if (child.tagString().includes("Spring")) {
+                    child.h = space;
                 }
             }
         }
@@ -228,6 +228,7 @@ export class Column extends Group {
         // compressabilty across all the children. we calculate the fraction for 
         // each child, then subtract that fraction of the total shortfall 
         // from the natural height of that child, to get the assigned height.
+        // === YOUR CODE HERE ===
         for (let child of this.children) {
             let fraction = (child.naturalH - child.minH) / availCompr;
             child.h = child.h - (fraction * shortfall);

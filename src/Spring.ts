@@ -30,7 +30,7 @@ export class Spring extends DrawnObjectBase {
     public override set w(v : number) {
         //=== YOUR CODE HERE ===
         if(v !== super.w && v >= 0) {
-            super.w = v;
+            this._w = v;
             this.damageAll();
         }
     }
@@ -39,7 +39,7 @@ export class Spring extends DrawnObjectBase {
     public override set h(v : number) {
         //=== YOUR CODE HERE ===
         if(v !== super.h && v >= 0) {
-            super.h = v;
+            this._h = v;
             this.damageAll();
         }
     }

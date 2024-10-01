@@ -162,6 +162,7 @@ export class DrawnObjectBase {
             this._w = v;
             this.damageAll();
         }
+        // change this with the within config function
     }
     get wConfig() { return this._wConfig; }
     set wConfig(v) {
@@ -405,7 +406,7 @@ export class DrawnObjectBase {
         ctx.beginPath();
         ctx.rect(clipx, clipy, clipw, cliph);
         ctx.clip();
-        ctx.closePath();
+        //ctx.closePath();
     }
     // Utility routine to create a new rectangular path at our bounding box.
     makeBoundingBoxPath(ctx) {
