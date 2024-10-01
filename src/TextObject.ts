@@ -121,8 +121,8 @@ export class TextObject extends DrawnObjectBase {
     protected _recalcSize(ctx? : DrawContext) : void {
         //=== YOUR CODE HERE ===
         let curSize = this._measureText(this.text,this.font, ctx);
-        this.w = curSize.w;
-        this.h = curSize.h;
+        this.w = curSize.w +this.padding.w*2;
+        this.h = curSize.h+ this.padding.h*2;
         // set the size configuration to be fixed at that size
         this.wConfig = SizeConfig.fixed(this.w);
         this.hConfig = SizeConfig.fixed(this.h);
@@ -150,6 +150,7 @@ export class TextObject extends DrawnObjectBase {
             
             //=== YOUR CODE HERE ===
             let text = this._measureText(this.text,this.font,ctx);
+            ctx.font = this.font;
             if(this.renderType === "fill"){
                 ctx.fillStyle = clr;
                 ctx.fillText(this.text,this.padding.w,text.baseln + this.padding.h);

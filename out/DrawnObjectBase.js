@@ -158,11 +158,11 @@ export class DrawnObjectBase {
     }
     get w() { return this._w; }
     set w(v) {
-        if (!(v === this._w)) {
-            this._w = v;
+        let newV = SizeConfig.withinConfig(v, this.wConfig);
+        if (!(newV === this._w)) {
+            this._w = newV;
             this.damageAll();
         }
-        // change this with the within config function
     }
     get wConfig() { return this._wConfig; }
     set wConfig(v) {
@@ -187,8 +187,9 @@ export class DrawnObjectBase {
     wIsFixed() { return this._wConfig.min === this._wConfig.max; }
     get h() { return this._h; }
     set h(v) {
-        if (!(v === this._h)) {
-            this._h = v;
+        let newV = SizeConfig.withinConfig(v, this.hConfig);
+        if (!(newV === this._h)) {
+            this._h = newV;
             this.damageAll();
         }
     }
@@ -196,7 +197,6 @@ export class DrawnObjectBase {
     set hConfig(v) {
         if (!SizeConfig.eq(v, this._hConfig)) {
             this._hConfig = v;
-            this.damageAll();
         }
     }
     get naturalH() { return this._hConfig.nat; }

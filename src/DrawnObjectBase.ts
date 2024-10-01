@@ -143,11 +143,11 @@ export class DrawnObjectBase {
     protected _w : number = 42;
     public get w() : number {return this._w;}
     public set w(v : number) {
-        if (!(v === this._w)){
-            this._w = v;
+        let newV = SizeConfig.withinConfig(v, this.wConfig);
+        if (!(newV === this._w)){
+            this._w = newV;
             this.damageAll();
         }
-        // change this with the within config function
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -184,8 +184,9 @@ export class DrawnObjectBase {
     protected _h : number = 13;
     public get h() : number {return this._h;}
     public set h(v : number) {
-        if (!(v === this._h)) {
-            this._h = v;
+        let newV = SizeConfig.withinConfig(v, this.hConfig);
+        if (!(newV === this._h)){
+            this._h = newV;
             this.damageAll();
         }
     }
@@ -198,7 +199,6 @@ export class DrawnObjectBase {
     public set hConfig(v : SizeConfigLiteral) {
         if (!SizeConfig.eq(v,this._hConfig)) {
             this._hConfig = v;
-            this.damageAll();
         }
     }
 

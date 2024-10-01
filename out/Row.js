@@ -77,7 +77,7 @@ export class Row extends Group {
     //
     // Our width is set to the width determined by stacking our children horizontally.
     _doLocalSizing() {
-        //=== YOUR CODE HERE ===max};
+        //=== YOUR CODE HERE ===
         const maxes_H = [];
         const mins_H = [];
         const naturals_H = [];
@@ -195,10 +195,8 @@ export class Row extends Group {
         // from the natural height of that child, to get the assigned height.
         for (let child of this.children) {
             //=== YOUR CODE HERE ===
-            for (let child of this.children) {
-                let fraction = (child.naturalW - child.minW) / availCompr;
-                child.w = child.w - (fraction * shortfall);
-            }
+            let fraction = (child.naturalW - child.minW) / availCompr;
+            child.w = child.w - (fraction * shortfall);
         }
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

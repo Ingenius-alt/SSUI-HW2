@@ -86,9 +86,9 @@ export class IconObject extends DrawnObjectBase {
     _resize() {
         //=== YOUR CODE HERE ===
         if (!this.resizesImage) {
-            if (this.image !== undefined && this.image.canvasImage != undefined) {
-                this.w = this.image.canvasImage.width;
-                this.h = this.image.canvasImage.height;
+            if (this.image && this.image.canvasImage) {
+                this._w = this.image.canvasImage.width;
+                this._h = this.image.canvasImage.height;
             }
         }
     }
@@ -115,12 +115,12 @@ export class IconObject extends DrawnObjectBase {
             return;
         if (this.resizesImage) {
             //=== YOUR CODE HERE ===
-            ctx.drawImage(this.image.canvasImage, 0, 0, this.w, this.y);
+            ctx.drawImage(this.image.canvasImage, 0, 0, this.w, this.h);
         }
         else {
             //=== YOUR CODE HERE ===
             this._resize();
-            ctx.drawImage(this.image.canvasImage, 0, 0, this.w, this.y);
+            ctx.drawImage(this.image.canvasImage, 0, 0, this.w, this.h);
         }
     }
 } // end of IconObject class

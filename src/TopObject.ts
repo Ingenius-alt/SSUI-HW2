@@ -210,10 +210,13 @@ export class TopObject extends DrawnObjectBase {
     // damage instead of passing it up the tree (since there is no up  from here).
     public override damageArea(xv: number, yv: number, wv: number, hv: number): void {
         //=== YOUR CODE HERE ===
-        // this._damageRectX = xv;
-        // this._damageRectY = yv;
-        // this._damageRectW = wv;
-        // this._damageRectH = hv;
+        if (wv >= this._damageRectW && hv <= this._damageRectH)
+        {
+            this._damageRectX = xv;
+            this._damageRectY = yv;
+            this._damageRectW = wv;
+            this._damageRectH = hv;
+        }
         this._damaged = true;
     }
     
