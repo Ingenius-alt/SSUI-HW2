@@ -69,7 +69,7 @@ export class TopObject extends DrawnObjectBase {
     //-------------------------------------------------------------------
     // For this object we clear the canvas behind the children that we draw
     _drawSelfOnly(ctx) {
-        //=== YOUR CODE HERE ===
+        // Clear everything behind the children
         ctx.clearRect(0, 0, this.owningCanvas.width, this.owningCanvas.height);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -117,10 +117,8 @@ export class TopObject extends DrawnObjectBase {
                 // we don't have a parent to do the following for us, so we do it 
                 // ourselves...
                 // clip to our bounds
-                //=== YOUR CODE HERE ===
                 this.applyClip(this.canvasContext, 0, 0, this.w, this.h);
                 // within our bounds clip to just the damaged region
-                //=== YOUR CODE HERE ===
                 this.applyClip(this.canvasContext, this._damageRectX, this._damageRectY, this._damageRectW, this._damageRectH);
                 // after this we will no longer be damaged, so reset our damage tracking
                 // rectangle to be our whole bounds
@@ -128,9 +126,7 @@ export class TopObject extends DrawnObjectBase {
                 this._damageRectW = this.w;
                 this._damageRectH = this.h;
                 // do the actual drawing from here down the tree
-                //=== YOUR CODE HERE ===
                 this.draw(this.canvasContext);
-                //this._damaged = false;
             }
             catch (err) {
                 // catch any exception thrown and echo the message, but then 
@@ -159,14 +155,22 @@ export class TopObject extends DrawnObjectBase {
     // Override the routine that declares damage for this object to record the 
     // damage instead of passing it up the tree (since there is no up  from here).
     damageArea(xv, yv, wv, hv) {
-        //=== YOUR CODE HERE ===
-        if (wv >= this._damageRectW && hv <= this._damageRectH) {
+        // Here we just damage the area passed from the child
+        // if already damaged then we just check if we 
+        // need to make our box bigger
+        if (!this.damaged) {
             this._damageRectX = xv;
             this._damageRectY = yv;
             this._damageRectW = wv;
             this._damageRectH = hv;
+            this._damaged = true;
         }
-        this._damaged = true;
+        else {
+            this._damageRectX = Math.min(this.x, xv);
+            this._damageRectY = Math.min(this.y, yv);
+            this._damageRectW = Math.max(this.w, wv);
+            this._damageRectH = Math.max(this.h, hv);
+        }
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .  
     // Special routine to declare that damage has occured due to asynchronous

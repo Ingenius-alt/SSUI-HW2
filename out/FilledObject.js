@@ -23,7 +23,8 @@ export class FilledObject extends DrawnObjectBase {
     // Override w & h setters so they enforce fixed size
     get w() { return super.w; }
     set w(v) {
-        //=== YOUR CODE HERE ===
+        // If the input is different then we change w and 
+        // change wConfig to fixed to new value and damage
         if (!(v === this.w)) {
             this._w = v;
             this._wConfig = SizeConfig.fixed(v);
@@ -32,7 +33,8 @@ export class FilledObject extends DrawnObjectBase {
     }
     get h() { return super.h; }
     set h(v) {
-        //=== YOUR CODE HERE ===
+        // If the input is different then we change h and 
+        // change hConfig to fixed to new value and damage
         if (!(v === this.h)) {
             this._h = v;
             this._hConfig = SizeConfig.fixed(v);
@@ -61,7 +63,7 @@ export class FilledObject extends DrawnObjectBase {
         else {
             ctx.fillStyle = this.color.toString();
         }
-        //=== YOUR CODE HERE ===
+        // draw the filled object in local coordinates
         ctx.fillRect(0, 0, this.w, this.h);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

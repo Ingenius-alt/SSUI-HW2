@@ -62,6 +62,7 @@ export class Column extends Group {
     public override set h(v : number) {
         if (v !== this._h) {
             // damage at old size
+            // We change h and change the hConfig if different
             this.damageAll();
             this._h = v;
             this._hConfig = SizeConfig.fixed(v);
@@ -91,14 +92,17 @@ export class Column extends Group {
     //
     // Our height is set to the height determined by stacking our children vertically.
     protected override _doLocalSizing() : void {
-        //=== YOUR CODE HERE ===
+        // We add all the max, min, nat of the heights and widths of all children
+        // Then we set the the hConfig equal to the sums of all the childs
+        // heights max, min, nat
+        // We then just change wConfig equal to the maxes of the widths max
+        // min, nat
         const maxes_H = [];
         const mins_H = [];
         const naturals_H = [];
         const maxes_W = [];
         const mins_W = [];
         const naturals_W = [];
-        //const heights = [];
         for (var child of this.children){
             maxes_H.push(child.maxH);
             mins_H.push(child.minH);
@@ -106,7 +110,6 @@ export class Column extends Group {
             maxes_W.push(child.maxW);
             mins_W.push(child.minW);
             naturals_W.push(child.naturalW);
-            //heights.push(child.h);
         }
         let v = new SizeConfig(naturals_H.reduce((sum, current) => sum + current, 0),
                 mins_H.reduce((sum, current) => sum + current, 0),
@@ -116,7 +119,6 @@ export class Column extends Group {
                 maxes_W.reduce((max, current) => (max < current) ? current : max, 0))
         this.hConfig = v;
         this.wConfig = v2;
-        //this.h = heights.reduce((sum, current) => sum + current, 0);
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -180,7 +182,11 @@ export class Column extends Group {
         let availCompr = 0; 
         let numSprings = 0; 
 
-        //=== YOUR CODE HERE ===
+        // We go through each child and determine if it is a spring or not
+        // if it is a spring we change our counter
+        // if it is not then we add their natH to our counter
+        // and then calulate the available compression by
+        // doing the childs natH - minH then we add that to our counter
         for (var child of this.children){
             if (!child.tagString().includes("Spring")) {
                 natSum += child.naturalH;
@@ -201,7 +207,8 @@ export class Column extends Group {
     // are no child springs, this does nothing (which has the eventual effect of leaving 
     // the space at the bottom of the column as a fallback strategy).
     protected _expandChildSprings(excess : number, numSprings : number) : void {
-        //=== YOUR CODE HERE ===
+        // We expand only children that are springs by space
+        // which is excess / numSprings which is the height
         if (numSprings > 0) {
             for (var child of this.children){
                 let space = excess / numSprings;
@@ -228,8 +235,10 @@ export class Column extends Group {
         // compressabilty across all the children. we calculate the fraction for 
         // each child, then subtract that fraction of the total shortfall 
         // from the natural height of that child, to get the assigned height.
-        // === YOUR CODE HERE ===
         for (let child of this.children) {
+            // We compress our children by a fraction calculated by
+            // (child.naturalH - child.minH) / availCompr but we also 
+            // multiply by the shortfall which is telling us how much to compress
             let fraction = (child.naturalH - child.minH) / availCompr;
             child.h = child.h - (fraction * shortfall);
         }
@@ -275,7 +284,7 @@ export class Column extends Group {
 
         // apply our justification setting for the horizontal
         
-        //=== YOUR CODE HERE ===
+        // We set horizontal alignment based on the justification
         switch (this.wJustification) {
             case 'left':
                 for (let child of this.children)

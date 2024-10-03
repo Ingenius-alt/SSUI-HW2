@@ -158,6 +158,8 @@ export class DrawnObjectBase {
     }
     get w() { return this._w; }
     set w(v) {
+        // Check if it is within its config
+        // then see if changed and damage
         let newV = SizeConfig.withinConfig(v, this.wConfig);
         if (!(newV === this._w)) {
             this._w = newV;
@@ -187,6 +189,8 @@ export class DrawnObjectBase {
     wIsFixed() { return this._wConfig.min === this._wConfig.max; }
     get h() { return this._h; }
     set h(v) {
+        // Check if it is within its config
+        // then see if changed and damage
         let newV = SizeConfig.withinConfig(v, this.hConfig);
         if (!(newV === this._h)) {
             this._h = newV;
@@ -402,11 +406,10 @@ export class DrawnObjectBase {
     // This reduces the cippping area to the intersection of any existing clipping
     // area and the given rectangle.
     applyClip(ctx, clipx, clipy, clipw, cliph) {
-        //=== YOUR CODE HERE ===
+        // Create our clip based on given parameters
         ctx.beginPath();
         ctx.rect(clipx, clipy, clipw, cliph);
         ctx.clip();
-        //ctx.closePath();
     }
     // Utility routine to create a new rectangular path at our bounding box.
     makeBoundingBoxPath(ctx) {
@@ -582,7 +585,7 @@ export class DrawnObjectBase {
     // our parent.
     damageArea(xv, yv, wv, hv) {
         var _a;
-        //=== YOUR CODE HERE ===
+        // If we are damaged then tell parent we have been damaged
         (_a = this.parent) === null || _a === void 0 ? void 0 : _a._damageFromChild(this, xv, yv, wv, hv);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -600,7 +603,8 @@ export class DrawnObjectBase {
     // damage may be, since all drawing at or under this location in the tree is 
     // limited to our bounds by clipping.
     _damageFromChild(child, xInChildCoords, yInChildCoords, wv, hv) {
-        //=== YOUR CODE HERE ===
+        // If a child was damaged then damage ourselves in our own
+        // coordinates
         this.damageArea(xInChildCoords + child.x, yInChildCoords + child.y, wv, hv);
     }
     get debugID() { return this._debugID; }

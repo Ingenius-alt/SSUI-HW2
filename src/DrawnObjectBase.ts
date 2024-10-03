@@ -143,6 +143,8 @@ export class DrawnObjectBase {
     protected _w : number = 42;
     public get w() : number {return this._w;}
     public set w(v : number) {
+        // Check if it is within its config
+        // then see if changed and damage
         let newV = SizeConfig.withinConfig(v, this.wConfig);
         if (!(newV === this._w)){
             this._w = newV;
@@ -184,6 +186,8 @@ export class DrawnObjectBase {
     protected _h : number = 13;
     public get h() : number {return this._h;}
     public set h(v : number) {
+        // Check if it is within its config
+        // then see if changed and damage
         let newV = SizeConfig.withinConfig(v, this.hConfig);
         if (!(newV === this._h)){
             this._h = newV;
@@ -460,11 +464,11 @@ export class DrawnObjectBase {
     public applyClip(ctx : DrawContext, 
                      clipx : number, clipy : number, clipw : number, cliph : number) 
     {
-        //=== YOUR CODE HERE ===
+        // Create our clip based on given parameters
         ctx.beginPath();
         ctx.rect(clipx,clipy,clipw,cliph);
         ctx.clip();
-        //ctx.closePath();
+        
     }
 
     // Utility routine to create a new rectangular path at our bounding box.
@@ -660,7 +664,7 @@ export class DrawnObjectBase {
     // declaring extra damage. This method passes a damage report up the tree via 
     // our parent.
     public damageArea(xv: number, yv : number, wv : number, hv : number) : void {
-        //=== YOUR CODE HERE ===
+        // If we are damaged then tell parent we have been damaged
         this.parent?._damageFromChild(this, xv, yv, wv, hv);
     }
 
@@ -685,7 +689,8 @@ export class DrawnObjectBase {
                                xInChildCoords: number, yInChildCoords: number, 
                                wv : number, hv: number) : void 
     {
-        //=== YOUR CODE HERE ===
+        // If a child was damaged then damage ourselves in our own
+        // coordinates
         this.damageArea(xInChildCoords + child.x, yInChildCoords + child.y, wv, hv);
     }
 

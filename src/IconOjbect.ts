@@ -89,7 +89,6 @@ export class IconObject extends DrawnObjectBase {
         if (v != this._resizesImage)
         {
             this._resizesImage = v;
-            this.damageAll();
         }
     }
 
@@ -99,7 +98,9 @@ export class IconObject extends DrawnObjectBase {
     
     // If our size is determined by the image, resize us to match (otherwise do nothing).
     protected _resize() {
-        //=== YOUR CODE HERE ===
+        // check if it is false then we change size equal to image size
+        // which we then check if we have an image then change
+        // w and h
         if(!this.resizesImage){
             if (this.image && this.image.canvasImage)
             {
@@ -135,10 +136,10 @@ export class IconObject extends DrawnObjectBase {
         if (!this.image || !this.image.canvasImage) return;
 
         if (this.resizesImage) {
-            //=== YOUR CODE HERE ===
+            // Draw image normally with our w and h
             ctx.drawImage(this.image.canvasImage, 0,0,this.w,this.h);
         } else {
-            //=== YOUR CODE HERE ===
+            // Draw image after resizing to the images w and h
             this._resize();
             ctx.drawImage(this.image.canvasImage, 0,0,this.w,this.h);
         }

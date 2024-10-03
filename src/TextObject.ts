@@ -35,7 +35,7 @@ export class TextObject extends DrawnObjectBase {
     protected _text : string ;
     public get text() {return this._text;}
     public set text(v : string) {
-        //=== YOUR CODE HERE ===
+        //Check if v is different than the original text and if so damage
         if(!(v === this._text)) {
             this._text = v;
             this.damageAll();
@@ -71,7 +71,7 @@ export class TextObject extends DrawnObjectBase {
     protected _font : string;
     public get font() {return this._font;}
     public set font(v : string) {
-        //=== YOUR CODE HERE ===
+        // Check if we need to change font if so change it and damage
         if(!(v === this._font)) {
             this._font = v;
             this.damageAll();
@@ -89,6 +89,7 @@ export class TextObject extends DrawnObjectBase {
         if (typeof v === 'number') {
             v = {w:v, h:v};
         }
+        // Check if padding is the same if not change and damage
         if(!(v === this._padding)) {
             this._padding = v;
             this.damageAll();
@@ -119,7 +120,8 @@ export class TextObject extends DrawnObjectBase {
 
     // Recalculate the size of this object based on the size of the text
     protected _recalcSize(ctx? : DrawContext) : void {
-        //=== YOUR CODE HERE ===
+        // We measure our text using _measureText then using that we change
+        // our w and h with twice the padding added as well
         let curSize = this._measureText(this.text,this.font, ctx);
         this.w = curSize.w +this.padding.w*2;
         this.h = curSize.h+ this.padding.h*2;
@@ -148,7 +150,10 @@ export class TextObject extends DrawnObjectBase {
                 clr = this.color.toString();
             }
             
-            //=== YOUR CODE HERE ===
+            // We measure the text to extract the baseline to add to our height
+            // We then determine if we either need to use stroke or fill
+            // based on the render type
+            // We also change the font according to our font
             let text = this._measureText(this.text,this.font,ctx);
             ctx.font = this.font;
             if(this.renderType === "fill"){
@@ -159,9 +164,6 @@ export class TextObject extends DrawnObjectBase {
                 ctx.strokeStyle = clr;
                 ctx.strokeText(this.text,this.padding.w,text.baseln + this.padding.h);
             }
-
-            //ctx.fillText(this.text,this.padding.w,text.baseln + this.padding.h);
-
         }   finally {
             // restore the drawing context to the state it was given to us in
             ctx.restore();
